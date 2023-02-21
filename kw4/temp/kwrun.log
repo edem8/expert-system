@@ -1,0 +1,55 @@
+Log Open: 2/20/2023  15: 37: 54
+
+KnowledgeWright Basic  4-1-21
+
+Solving goal list: [next_step]
+
+Looking for: next_step
+  Trying: text(next_step)
+  Looking for: recommend
+    Using: multi-valued rule_set(recommend)
+      Looking for: chosen_field
+        Using: single-valued rule_set(chosen_field)
+          Looking for: fields
+            Trying: question(fields)
+            Asking user: fields...
+----------- pause ------------
+
+Solving goal list: [next_step]
+
+Looking for: next_step
+  Trying: text(next_step)
+  Looking for: recommend
+    Using: multi-valued rule_set(recommend)
+      Looking for: chosen_field
+        Using: single-valued rule_set(chosen_field)
+          Using rule #1: if fields = "Multimedia" or fields = "Gaming" or fields = "Education" or fields = "Law" or fields = "Accounting and Finance" or fields = "IT" or fields = "Consulting" or fields = "Marketing and Advertisement" or fields = "Health care" then text("chosen")
+      Found: chosen_field = "chosen"
+      Looking for: brand
+        Trying: question(brand)
+        Asking user: brand...
+----------- pause ------------
+
+Solving goal list: [next_step]
+
+Looking for: next_step
+  Trying: text(next_step)
+  Looking for: recommend
+    Using: multi-valued rule_set(recommend)
+      Looking for: budget
+        Trying: question(budget)
+        Asking user: budget...
+----------- pause ------------
+
+Solving goal list: [next_step]
+
+Looking for: next_step
+  Trying: text(next_step)
+  Looking for: recommend
+    Using: multi-valued rule_set(recommend)
+      Using rule #12: if chosen_field = "chosen" and brand = "Apple" and budget = "1000USD-1800USD (LOW)" then text("MAC BOOK AIR 2020")
+  Found: recommend = ["MAC BOOK AIR 2020"]
+Found: next_step = "Recommendation: MAC BOOK AIR 2020
+"
+----------- done ------------
+

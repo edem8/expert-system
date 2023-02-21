@@ -1,0 +1,113 @@
+              Java(TM) 2 Runtime Environment, Standard Edition
+                             Version 1.3.0
+
+				CHANGES
+------------------------------------------------------------------------
+
+This software is an implementation of the new Java 2 Platform, Standard 
+Edition, version 1.3. The new platform offers significant improvements 
+in functionality and performance over previous versions of the Java 
+platform. New packages that have been added to the platform include:
+
+   * Platform now includes Java Sound API in the javax.sound.* 
+     packages.
+
+   * Platform now includes Java Naming and Directory Interface(TM) API
+     in the javax.naming.* packages.
+
+   * Platform now includes new RMI over IIOP functionality in the 
+     javax.rmi and org.omg.* packages.
+
+   * Platform now includes the Input Method Service Provider Interface 
+     in the java.awt.im.spi package.
+
+In addition, enhancements to existing functionality have been made 
+in many areas of the Java 2 Platform.
+
+For more information, see:
+
+   * Summary of New Features - Features added since version 1.2 
+     of the Java 2 Runtime Environment.
+     http://java.sun.com/j2se/sdk/1.3/docs/relnotes/features.html
+
+   * Guide to Features - Complete list of all features.
+     http://java.sun.com/j2se/sdk/1.3/docs/index.html#guide
+
+
+=======================================================================
+Changes in 1.3 Release Candidate 3 and Final Release
+-----------------------------------------------------------------------
+
+Release Candidate 3 and the Final Release of 1.3.0 contain fixes for 
+bugs that were present in Release Candidate 2.  For a list of bugs 
+fixed in the various releases, see the Java Software web site.
+
+    http://java.sun.com/j2se/sdk/1.3/bugs.html
+
+
+=======================================================================
+Changes in 1.3 Release Candidate 2
+-----------------------------------------------------------------------
+
+The following are API changes made to the 1.3 platform since Release 
+Candidate 1. 
+
+   * These three public classes have been removed: 
+        java.awt.event.TextSelectionEvent 
+        java.awt.event.TextSelectionListener 
+        java.awt.TextSelectionEventMulticaster 
+
+   * Method java.awt.AWTEvent.setSource(Object) has been moved to 
+        class java.awt.event.KeyEvent and it has been made public. 
+
+
+=======================================================================
+Changes from 1.3 Beta to 1.3 Release Candidate 1
+-----------------------------------------------------------------------
+
+The following are API changes made to the 1.3 platform since the 
+Beta release.
+
+   * Removed package org.omg.CORBA.TSIdentificationPackage
+
+   * Removed class org.omg.CORBA.TSIdentification
+
+   * Removed the following classes:
+        org/omg/CORBA/AttrDescriptionSeqHelper.class
+        org/omg/CORBA/AttributeDescription.class
+        org/omg/CORBA/AttributeDescriptionHelper.class
+        org/omg/CORBA/AttributeMode.class
+        org/omg/CORBA/AttributeModeHelper.class
+        org/omg/CORBA/ContextIdentifierHelper.class
+        org/omg/CORBA/ContextIdSeqHelper.class
+        org/omg/CORBA/ExcDescriptionSeqHelper.class
+        org/omg/CORBA/ExceptionDescription.class
+        org/omg/CORBA/ExceptionDescriptionHelper.class
+        org/omg/CORBA/OperationDescription.class
+        org/omg/CORBA/OperationDescriptionHelper.class
+        org/omg/CORBA/OperationMode.class
+        org/omg/CORBA/OperationModeHelper.class
+        org/omg/CORBA/ParameterDescription.class
+        org/omg/CORBA/ParameterDescriptionHelper.class
+        org/omg/CORBA/ParameterMode.class
+        org/omg/CORBA/ParameterModeHelper.class
+        org/omg/CORBA/ParDescriptionSeqHelper.class
+        org/omg/CORBA/portable/AbstractBase.class
+        org/omg/CORBA/StreamingPolicy.class
+
+   * The new javax.media.sound.* packages have been renamed to 
+     javax.sound.*. 
+
+   * Moved java.awt.print.JobAttributes to java.awt.JobAttributes
+
+   * Moved java.awt.print.PrintAttributes to java.awt.PrintAttributes
+
+   * Based on feedback from the public review of the Beta specifications, 
+     two new methods have been added to java.lang.Runtime to allow 
+     specification of the working directory of exec subprocesses. This 
+     is a fix for bug 4156278. 
+
+-----------------------------------------------------------------------
+Copyright (c) 1999, 2000 Sun Microsystems(tm), Inc.
+901 San Antonio Road, Palo Alto, CA 94303-4900
+All rights reserved.

@@ -1,0 +1,8 @@
+session(session_0, [actions = '[]', goals = '[]']).
+known(session_0, fact(next_step, "Recommendation: MAC BOOK AIR 2020
+")).
+known(session_0, fact(recommend, ["MAC BOOK AIR 2020"])).
+known(session_0, fact(budget, "1000USD-1800USD (LOW)")).
+known(session_0, fact(brand, "Apple")).
+known(session_0, fact(chosen_field, "chosen")).
+known(session_0, fact(fields, "Law")).

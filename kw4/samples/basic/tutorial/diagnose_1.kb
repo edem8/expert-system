@@ -1,0 +1,99 @@
+knowledgewright_jig(basic, 7).
+
+
+
+% folder
+
+
+
+% knowledgebase
+
+knowledgebase(main, /, [
+   description = "A simple diagnostic system illustrating the use of rules to determine a 'problem'",
+   goals = [problem],
+   odbc = "",
+   question_separator = "<P>",
+   menu_separator = "<BR>",
+   value_separator = "<P>",
+   question_top = text("<HTML><HEAD></HEAD><BODY><FORM METHOD=""POST"" ACTION=""/cgi-bin/kwcgibasic.exe" + system(cgi_parameters) + """>"),
+   question_bottom = text("<P><INPUT NAME=""Submit"" TYPE=""Submit"" VALUE=""Submit""></INPUT> <INPUT TYPE=""Reset"" VALUE=""Reset""></INPUT></FORM></BODY></HTML>"),
+   output_top = text("<HTML><HEAD></HEAD><BODY>"),
+   output_continue = text("<FORM METHOD=""POST"" ACTION=""/cgi-bin/kwcgibasic.exe" + system(cgi_parameters) + """><INPUT NAME=""Continue"" TYPE=""Submit"" VALUE=""Submit""></INPUT></FORM>"),
+   output_bottom = text("</BODY></HTML>")
+   ]).
+
+
+
+% fact
+
+
+
+% question
+
+question(symptom, /, [
+   prompt = text("What symptom are you experiencing?"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["video screen blank", "mouse sticky"],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(led_light, /, [
+   prompt = text("What is the state of the video LED light?"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["on", "off"],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(mouse_pad, /, [
+   prompt = text("Are you using a mouse pad?
+"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["yes", "no"],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(rollers_clean, /, [
+   prompt = text("Have you recently cleaned the rollers?"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["yes", "no"],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+
+
+% sql
+
+
+
+% rule_set
+
+rule_set(problem, /, [
+   description = "Rules to determine a problem",
+   type = single_value,
+   rules = [[conditions, value], [symptom = "video screen blank" and led_light = "on", text("Screen saver on")], [symptom = "video screen blank" and led_light = "off", text("Monitor turned off")], [symptom = "mouse sticky" and mouse_pad = "yes" and rollers_clean = "no", text("Dirty rollers")], [symptom = "mouse sticky" and mouse_pad = "no", text("No mouse pad")], [symptom = "mouse sticky" and mouse_pad = "yes" and rollers_clean = "yes", text("Broken mouse")]]
+   ]).
+
+
+
+% table
+
+
+
+% text
+

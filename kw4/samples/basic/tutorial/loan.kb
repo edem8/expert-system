@@ -1,0 +1,90 @@
+knowledgewright_jig(basic, 7).
+
+
+
+% folder
+
+
+
+% knowledgebase
+
+knowledgebase(main, /, [
+   description = "",
+   goals = [max_loan_amount],
+   odbc = "",
+   question_separator = "<P>",
+   menu_separator = "<BR>",
+   value_separator = "<P>",
+   question_top = text("<HTML><HEAD></HEAD><BODY><FORM METHOD=""POST"" ACTION=""/cgi-bin/kwcgibasic.exe" + system(cgi_parameters) + """>"),
+   question_bottom = text("<P><INPUT NAME=""Submit"" TYPE=""Submit"" VALUE=""Submit""></INPUT> <INPUT TYPE=""Reset"" VALUE=""Reset""></INPUT></FORM></BODY></HTML>"),
+   output_top = text("<HTML><HEAD></HEAD><BODY>"),
+   output_continue = text("<FORM METHOD=""POST"" ACTION=""/cgi-bin/kwcgibasic.exe" + system(cgi_parameters) + """><INPUT NAME=""Continue"" TYPE=""Submit"" VALUE=""Submit""></INPUT></FORM>"),
+   output_bottom = text("</BODY></HTML>")
+   ]).
+
+
+
+% fact
+
+
+
+% question
+
+question(income, /, [
+   prompt = text("What is your income?"),
+   question_type = fill_in_the_blank,
+   question_style = listbox,
+   choices = '[]',
+   'rule-display_choices' = [["rule_text", "display_text"]],
+   answer_type = number,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(debt, /, [
+   prompt = text("How much money do you current owe others?"),
+   question_type = fill_in_the_blank,
+   question_style = listbox,
+   choices = '[]',
+   'rule-display_choices' = [["rule_text", "display_text"]],
+   answer_type = number,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(rating, /, [
+   prompt = text("What is your credit rating?"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["poor", "good"],
+   'rule-display_choices' = [["rule_text", "display_text"]],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+
+
+% sql
+
+
+
+% rule_set
+
+
+
+% table
+
+table(max_loan_amount, /, [
+   description = "",
+   type = single_value,
+   rules = [[income, debt, rating, max_loan_amount], [> 50000, < 10000, text("poor"), 75000], [> 50000, < 10000, text("good"), 150000], [> 35000, < 5000, text("poor"), 50000], [> 35000, < 5000, text("good"), 100000], [*, *, *, 0]]
+   ]).
+
+
+
+% text
+

@@ -1,0 +1,120 @@
+knowledgewright_jig(basic, 7).
+
+
+
+% folder
+
+:- sorted(folder/3).
+
+
+
+% knowledgebase
+
+:- sorted(knowledgebase/3).
+
+knowledgebase(main, /, [
+   description = "An expert system, that recommends a computer to buy based on field, brand and budget",
+   goals = [next_step],
+   odbc = "",
+   question_separator = "<P>",
+   menu_separator = "<BR>",
+   value_separator = "<P>",
+   question_top = text("<HTML><HEAD></HEAD><BODY><FORM METHOD=""POST"" ACTION=""/cgi-bin/kwcgibasic.exe" + system(cgi_parameters) + """>"),
+   question_bottom = text("<P><INPUT NAME=""Submit"" TYPE=""Submit"" VALUE=""Submit""></INPUT> <INPUT TYPE=""Reset"" VALUE=""Reset""></INPUT></FORM></BODY></HTML>"),
+   output_top = text("<HTML><HEAD></HEAD><BODY>"),
+   output_continue = text("<FORM METHOD=""POST"" ACTION=""/cgi-bin/kwcgibasic.exe" + system(cgi_parameters) + """><INPUT NAME=""Submit"" TYPE=""Submit"" VALUE=""Continue""></INPUT></FORM>"),
+   output_bottom = text("</BODY></HTML>")
+   ]).
+
+
+
+% fact
+
+:- sorted(fact/3).
+
+
+
+% question
+
+:- sorted(question/3).
+
+question(brand, /, [
+   prompt = text("What brand would you prefer?"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["Dell", "Hp", "Lenovo", "Asus", "Apple"],
+   'rule-display_choices' = [["rule_text", "display_text"]],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(budget, /, [
+   prompt = text(""),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["3000USD-6000USD (HIGH)", "2000USD-3000USD (AVERAGE)", "1000USD-1800USD (LOW)"],
+   'rule-display_choices' = [["rule_text", "display_text"]],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+question(fields, /, [
+   prompt = text("What field are you into?"),
+   question_type = menu_single_choice,
+   question_style = listbox,
+   choices = ["Multimedia", "Gaming", "Education", "Accounting and Finance", "Health care", "Marketing and Advertisement", "Law", "Consulting", "IT"],
+   'rule-display_choices' = [["rule_text", "display_text"]],
+   answer_type = text,
+   length = 20,
+   default = "",
+   ask_also = '[]'
+   ]).
+
+
+
+% sql
+
+:- sorted(sql/3).
+
+
+
+% rule_set
+
+:- sorted(rule_set/3).
+
+rule_set(chosen_field, /, [
+   description = "Choose your the field youre into",
+   type = single_value,
+   rules = [[conditions, value], [fields = "Multimedia" or fields = "Gaming" or fields = "Education" or fields = "Law" or fields = "Accounting and Finance" or fields = "IT" or fields = "Consulting" or fields = "Marketing and Advertisement" or fields = "Health care", text("chosen")]]
+   ]).
+
+rule_set(recommend, /, [
+   description = "Recommend based on the field, brand and budget",
+   type = multiple_values,
+   rules = [[conditions, value], [chosen_field = "chosen" and brand = "Dell" and budget = "3000USD-6000USD (HIGH)", text("DELL XPS 15 (2021)")], [chosen_field = "chosen" and brand = "Dell" and budget = "2000USD-3000USD (AVERAGE)", text("DELL XPS 13 ")], [chosen_field = "chosen" and brand = "Dell" and budget = "1000USD-1800USD (LOW)", text("DELL INSPIRON 15 7000 (2021)")], [chosen_field = "chosen" and brand = "Hp" and budget = "3000USD-6000USD (HIGH)", text("HP ELITE BOOK 840 G7")], [chosen_field = "chosen" and brand = "Hp" and budget = "2000USD-3000USD (AVERAGE)", text("HP ZBOOK FURY")], [chosen_field = "chosen" and brand = "Hp" and budget = "1000USD-1800USD (LOW)", text("HP SPECTRE X360")], [chosen_field = "chosen" and brand = "Lenovo" and budget = "3000USD-6000USD (HIGH)", text("LENOVO THINKPAD X1 CARBON")], [chosen_field = "chosen" and brand = "Lenovo" and budget = "2000USD-3000USD (AVERAGE)", text("LENOVO THINKPAD T14 s")], [chosen_field = "chosen" and brand = "Lenovo" and budget = "1000USD-1800USD (LOW)", text(" LENOVO YOGA C940")], [chosen_field = "chosen" and brand = "Apple" and budget = "3000USD-6000USD (HIGH)", text("MAC BOOK PRO 16INCH 2021")], [chosen_field = "chosen" and brand = "Apple" and budget = "2000USD-3000USD (AVERAGE)", text("MAC BOOK PRO 14INCH 2021")], [chosen_field = "chosen" and brand = "Apple" and budget = "1000USD-1800USD (LOW)", text("MAC BOOK AIR 2020")], [chosen_field = "chosen" and brand = "Asus" and budget = "3000USD-6000USD (HIGH)", text(" ASUS EXPECTBOOK B9")], [chosen_field = "chosen" and brand = "Asus" and budget = "2000USD-3000USD (AVERAGE)", text(" ASUS ZENBOOK UX425")], [chosen_field = "chosen" and brand = "Asus" and budget = "1000USD-1800USD (LOW)", text("  ASUS VIVOBOOK S15")]]
+   ]).
+
+
+
+% table
+
+:- sorted(table/3).
+
+
+
+% text
+
+:- sorted(text/3).
+
+text(next_step, /, [
+   description = "Our recommendation based on user choices.",
+   type = text,
+   file = "",
+   text = text("Recommendation: " + recommend + "
+")
+   ]).
+

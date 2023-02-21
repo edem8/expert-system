@@ -1,0 +1,622 @@
+<HTML><!-- #BeginTemplate "/Templates/section_page.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Object: rule_set</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" link="#CC0000" vlink="#990000" alink="#FFCC00">
+<h2><font color="#990000"> <font color="#990000"><!-- #BeginEditable "Title" -->Object: 
+  rule_set <!-- #EndEditable --></font></font> </h2>
+<!-- #BeginEditable "Contents" --> 
+<h3><font color="#990000"><a name="description"></a></font>Description</h3>
+<p><! AMZI_INDEX = rule_set ; conditions>The heart of the knowledgebase is the 
+  rules. Rules can either directly determine the value of a top-level goal (see 
+  <a href="/jigs/object_knowledgebase.html">knowledgebase</a>), or they can determine 
+  the values of other facts. All the rules for a specific goal are in the same 
+  rule object. For example, all the rules that determine a value for problem are 
+  contained in the rule object named 'problem'.</p>
+<p>Here is a simple rule for 'problem': </p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">errorMessage = &quot;Code too long to load&quot;</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">srcbufTooSmall</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>It says if the fact 'errorMessage' has the value specified then the problem 
+  is 'srcbufTooSmall'. Now there is nothing particularly difficult or remarkable 
+  about this rule, nor is there about most of the rules in <!-- #BeginLibraryItem "/Library/Product.lbi" -->
+KnowledgeWright
+<!-- #EndLibraryItem -->. What is notable is that the rules are easy to read and 
+  can appear in the object in any order. The <!-- #BeginLibraryItem "/Library/Product.lbi" -->
+KnowledgeWright
+<!-- #EndLibraryItem --> 'reasoning engine' (that's a fancy way to say search 
+  and pattern matching engine) scans the rules looking for ones that 'succeed.' 
+  A rule is said to succeed when all of the facts on the 'if' side match correctly. 
+</p>
+<p>Before we examine the inference engine, lets look at some more rules. This 
+  one is for the rule 'language':</p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">languageTool = &quot;Visual C++&quot; or
+languageTool = &quot;Borland C++&quot; or
+languageTool = &quot;Watcom C++&quot;</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;C/C++&quot;</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>This rule distills the fact 'language' from the user-provided fact 'languageTool'. 
+  This allows us to simplify rules such as the following for 'problem': </p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">language = &quot;C/C++&quot; and
+apiFunction = &quot;lsInit&quot; and
+((errorMessage = &quot;GPF (General Protection Fault)&quot; and&nbsp;
+environmentNameVer = &quot;Windows 3.x&quot;) or
+environmentNameVer = &quot;DOS&quot;)</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">cLargeModelRequired</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>Note here that more of the power of the rule language becomes evident. We can 
+  use 'and', 'or' and parenthesis to check facts. </p>
+<h3><a name="default_values"></a>Default Values</h3>
+<p><! AMZI_INDEX = default value>You can also use a simple formula in a rule to 
+  specify a default value. For example, here are some rules for 'gifts':</p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">behavior = &quot;good&quot;</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;lots&quot;</font></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">behavior = &quot;bad&quot;</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;little&quot;</font></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">default</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;some&quot;</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>If behavior is neither 'good' nor 'bad' then the value of gifts is 'some'. 
+</p>
+<h3> <a name="comparators_and_functions"></a>Comparators and Functions</h3>
+<! AMZI_INDEX = functions; comparators; contains; contains_nocase; not>You can 
+use these comparators and functions: <br>
+<br>
+<div align="center"></div>
+<div align="center"> 
+  <table BORDER cellpadding=3 >
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>=&nbsp;</pre>
+      </td>
+      <td width="427">equal</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>\=</pre>
+      </td>
+      <td width="427">not equal</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>&lt;</pre>
+      </td>
+      <td width="427">less than</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>></pre>
+      </td>
+      <td width="427">greater than</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>&lt;=</pre>
+      </td>
+      <td width="427">less than or equal</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>>=</pre>
+      </td>
+      <td width="427">greater than or equal&nbsp;</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>not(<i>expr</i>)</pre>
+      </td>
+      <td width="427">the expression is false</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>contains &quot;<i>text</i>&quot;</pre>
+      </td>
+      <td width="427"> 
+        <p>checks if a text value contains a particular set of characters, words 
+          or phrases</p>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>contains_nocase &quot;<i>text</i>&quot;</pre>
+      </td>
+      <td width="427">checks if a text value contains another text value regardless 
+        of case</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre><i>numberX</i> - <i>numberY</i></pre>
+      </td>
+      <td width="427">the number is greater than or equal to numberX and less 
+        than or equal to numberY</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>age(<i>birthdate</i>)</pre>
+      </td>
+      <td width="427">the age of someone or something based on the birthdate</td>
+    </tr>
+    <tr valign="top"> 
+      <td width="147"> 
+        <pre>true</pre>
+      </td>
+      <td width="427">a constant value that means the condition is always true</td>
+    </tr>
+  </table>
+  <p align="left">The comparators &lt;, >, &lt;= and >= sort by numeric value 
+    for numbers and by the ASCII character codes for strings so 'A' &lt; 'B', 
+    'c' > 'D', '2' &lt; 'E'. </p>
+</div>
+<p>The 'not' operator is especially useful with 'include' (described <a href="#facts_with_multiple_values">below</a>). 
+  For example for 'behavior' rules: </p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">not(dogs include kato and
+dogs include ollie)</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">no_running_around</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>All of the facts on the if-side of the rule must either have questions or rules 
+  defined for them. In the examples above, 'environmentNameVer' is fact that is 
+  defined by question, which means the user is queried for the value. The fact 
+  'language' is defined by a rule, which means its value is derived from other 
+  facts. 
+<h4> <a name="facts_with_multiple_values"></a>Facts with Multiple Values</h4>
+<! AMZI_INDEX = facts; lists><!-- #BeginLibraryItem "/Library/Product.lbi" -->
+KnowledgeWright
+<!-- #EndLibraryItem --> also supports the concept of having a fact with multiple 
+values (for example questions with type menu_multiple_choices, sql queries and 
+rules with multiple values). These special comparators can be used for multi-valued 
+facts: <br>
+<br>
+<div align="center"></div>
+<div align="center"> 
+  <table BORDER cellpadding=3 >
+    <tr> 
+      <td width="109"> 
+        <pre><! AMZI_INDEX = include; exclude; number_of_items>include</pre>
+      </td>
+      <td width="150">included in list</td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>exclude</pre>
+      </td>
+      <td width="150">not included in list&nbsp;</td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>number_of_items</pre>
+      </td>
+      <td width="150">checks the number of values in a list</td>
+    </tr>
+  </table>
+  <p align="left">For example to check the multivalued fact 'whys' you could use 
+    'include' as follows for the rule 'tool': </p>
+</div>
+<blockquote> 
+  <div align="left"> 
+    <table border="1" cellpadding="2">
+      <tr valign="top"> 
+        <td> 
+          <pre><b><font color="#990000">conditions</font></b></pre>
+        </td>
+        <td> 
+          <pre><b><font color="#990000">value</font></b></pre>
+        </td>
+      </tr>
+      <tr valign="top"> 
+        <td> 
+          <pre><font color="#990000">whys include &quot;Intelligent components for Internet&quot; or
+what = &quot;Website construction&quot; or
+what = &quot;Other&quot;</font></pre>
+        </td>
+        <td> 
+          <pre><font color="#990000">webls</font></pre>
+        </td>
+      </tr>
+    </table>
+    <br>
+  </div>
+</blockquote>
+<h3><a name="arithmetic_operators"></a>Arithmetic Operators</h3>
+<p><! AMZI_INDEX = formulas>Formulas can be used in rules for determining the 
+  value of a fact. <!-- #BeginLibraryItem "/Library/Product.lbi" -->
+KnowledgeWright
+<!-- #EndLibraryItem --> supports addition, subtraction, multiplication, division 
+  and exponentiation via the following operators: </p>
+<div align="center"> 
+  <table BORDER cellpadding=3 >
+    <tr> 
+      <td width="109"><! AMZI_INDEX = addition; subtraction; division; multiplication, exponentiation>+</td>
+      <td width="150">addition</td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>-</pre>
+      </td>
+      <td width="150">subtraction</td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>*</pre>
+      </td>
+      <td width="150">multiplication</td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>/</pre>
+      </td>
+      <td width="150">division</td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>**</pre>
+      </td>
+      <td width="150">exponentiation</td>
+    </tr>
+  </table>
+</div>
+<blockquote>&nbsp;</blockquote>
+<p>For example here's a rule for 'area':</p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">shape = &quot;circle&quot;</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">pi * radius ** 2</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<h3><a name="date_handling"></a>Date Handling</h3>
+<p>You can use dates in rules and perform arithmetic on them. A date is represented 
+  in KnowledgeWright as date(Year, Month, Day). There are names for special dates 
+  as follows:</p>
+<div align="center"> 
+  <table BORDER cellpadding=3 >
+    <tr> 
+      <td width="109"> 
+        <pre><! AMZI_INDEX = today ; yesterday ; tomorrow ; last_week ; next_week ; last_month ; next_month ; last_year ; next_year>today</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>yesterday</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>tomorrow</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>last_week</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>next_week</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>last_month</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>next_month</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>last_year</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre>next_year</pre>
+      </td>
+    </tr>
+  </table>
+  <p align="left">Users can enter dates as fill-in-the-blank questions. The format 
+    for user entry is MM/DD/YYYY. This is transformed automatically into date(Year, 
+    Month, Day). For example, you can test if today is before Christmas 2001:</p>
+</div>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">today &lt; date(2001, 12, 25)</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;before Christmas&quot;</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>Once a date is in KnowledgeWright you can perform date arithmetic. For example, 
+  to determine how many days until Christmas:</p>
+<blockquote> 
+  <table border="1" cellpadding="2">
+    <tr valign="top"> 
+      <td> 
+        <pre><b><font color="#990000">conditions</font></b></pre>
+      </td>
+      <td> 
+        <pre><b><font color="#990000">value</font></b></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">date(2001, 12, 25) - today &lt; 30</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;shop quick&quot;</font></pre>
+      </td>
+    </tr>
+    <tr valign="top"> 
+      <td> 
+        <pre><font color="#990000">date(2001, 12, 25) - today &lt; 60</font></pre>
+      </td>
+      <td> 
+        <pre><font color="#990000">&quot;shop slow&quot;</font></pre>
+      </td>
+    </tr>
+  </table>
+</blockquote>
+<p>You can use the following values in date arithmetic:<br>
+</p>
+<div align="center"> 
+  <table BORDER cellpadding=3 >
+    <tr> 
+      <td width="109"> 
+        <pre><! AMZI_INDEX = weeks ; days ; months ; years><i>W</i> weeks</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre><i>D</i> days</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre><i>M</i> months</pre>
+      </td>
+    </tr>
+    <tr> 
+      <td width="109"> 
+        <pre><i>Y</i> years</pre>
+      </td>
+    </tr>
+  </table>
+  <p align="left">This allows you to write:</p>
+  <div align="left"> 
+    <blockquote> 
+      <table border="1" cellpadding="2">
+        <tr valign="top"> 
+          <td> 
+            <pre><b><font color="#990000">conditions</font></b></pre>
+          </td>
+          <td> 
+            <pre><b><font color="#990000">value</font></b></pre>
+          </td>
+        </tr>
+        <tr valign="top"> 
+          <td> 
+            <pre><font color="#990000">today + 1 months &gt; date(2001, 12, 25)</font></pre>
+          </td>
+          <td> 
+            <pre><font color="#990000">&quot;shop quick&quot;</font></pre>
+          </td>
+        </tr>
+        <tr valign="top"> 
+          <td> 
+            <pre><font color="#990000">today + 1 months &lt; date(2001, 12, 25)</font></pre>
+          </td>
+          <td> 
+            <pre><font color="#990000">&quot;shop slow&quot;</font></pre>
+          </td>
+        </tr>
+      </table>
+    </blockquote>
+  </div>
+  <blockquote> 
+    <div align="left"></div>
+  </blockquote>
+</div>
+<div align="center">
+  <blockquote>
+    <div align="left"></div>
+  </blockquote>
+</div>
+<h3><a name="rule_order"></a>Rule Order</h3>
+<p>The order in which the rules appear in the table is significant. The KnowledgeWright 
+  reasoning engine examines the table in order starting with the first row, and 
+  examines the rule conditions from left to right. </p>
+<p>In general, this means you want to put the more general conditions at the top 
+  left, and the more specific conditions at the bottom right. The reason to do 
+  this is because the reasoning engine in KnowledgeWright will ask the user a 
+  question as soon as it encounters a fact it doesn't have a value for. If the 
+  more general questions are asked first, then KnowledgeWright will more quickly 
+  filter out the rules that do not apply.</p>
+<h3><a name="rule_syntax"></a>Rule Syntax</h3>
+<p>Rules must follow these syntatic guidelines:</p>
+<ul>
+  <li><b>Object names that begin with an underscore or number, have spaces in 
+    them or contain any characters other than letters, numbers and underscores, 
+    must be enclosed in single quotes, e.g. 'Educational institution' or 'ERR*10'</b></li>
+  <li> Strings are enclosed in double quotes, e.g. &quot;none&quot;</li>
+  <li> Tabs, extra spaces and line breaks have no syntatic meaning.</li>
+</ul>
+<blockquote> </blockquote>
+<h3><a name="rule_properties"></a>Rule_Set Properties</h3>
+<p>Rules have the following properties:</p>
+<table BORDER cellpadding=3 >
+  <tr valign="bottom"> 
+    <td><! AMZI_INDEX = knowledgebase; goals; odbc><b>Property Name </b></td>
+    <td><b>Description</b></td>
+    <td><b>Default Value</b></td>
+    <td><b>Required</b></td>
+  </tr>
+  <tr valign="top"> 
+    <td>id</td>
+    <td>The name of this object. See <a href="/jigs/object_names.html">Object 
+      Names</a> for details.</td>
+    <td>&lt;none&gt;</td>
+    <td>yes</td>
+  </tr>
+  <tr valign="top"> 
+    <td>path</td>
+    <td>The folder this object is located in. See <a href="/jigs/folders.html">Folders</a> 
+      for details.</td>
+    <td>/</td>
+    <td>yes</td>
+  </tr>
+  <tr valign="top"> 
+    <td>description</td>
+    <td>A text description (comment)--not used during reasoning.</td>
+    <td>&lt;none&gt;</td>
+    <td>no</td>
+  </tr>
+  <tr valign="top"> 
+    <td>type</td>
+    <td>Whether or not these rules result in a fact (or goal) having a single 
+      value or multiple values.</td>
+    <td>&nbsp;</td>
+    <td>yes</td>
+  </tr>
+  <tr valign="top"> 
+    <td>rules</td>
+    <td>A table of conditions and their associated values. That is, when the conditions 
+      in the left column are met, the value of the rule_set object in the value 
+      in the right column.</td>
+    <td>&nbsp;</td>
+    <td>yes</td>
+  </tr>
+</table>
+<br>
+<!-- #EndEditable --> 
+<hr>
+<!-- #BeginLibraryItem "/Library/Copyright.lbi" --><i><font size="-2">Copyright &copy;1996-2002 Amzi! inc. All Rights Reserved. Amzi! 
+and WebLS are registered trademarks and KnowledgeWright, Logic Server are trademarks 
+of Amzi! inc.</font></i><!-- #EndLibraryItem --></BODY>
+<!-- #EndTemplate --></HTML>
